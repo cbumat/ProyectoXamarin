@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:HotelingXamarin.ViewModels"
+             x:Class="HotelingXamarin.Views.PrincipalMaster">
+    <MasterDetailPage.BindingContext>
+        <viewmodels:UsuarioViewModel/>
+    </MasterDetailPage.BindingContext>
+    <MasterDetailPage.Master>
+        <ContentPage Title="Menu">
+            <ContentPage.Content>
+                
+                <StackLayout>
+                    <ListView RowHeight="60" x:Name="lsvmenu">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label TextColor="Black"
+                                       FontSize="15"
+                                       Text="{Binding Titulo}"/>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackLayout x:Name="layout" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Button Text="Prueba"/>
+                    </StackLayout>
+                </StackLayout>
+            </ContentPage.Content>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <NavigationPage></NavigationPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

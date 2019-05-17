@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:HotelingXamarin.ViewModels"
+             x:Class="HotelingXamarin.Views.Registro">
+    <ContentPage.BindingContext>
+        <viewmodels:UsuarioViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <!-- Place new controls here -->
+            <Label Text="Iniciar sesión" 
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand" />
+            <Entry Placeholder="Email" Text="{Binding Usuario.EMAIL}" HorizontalOptions="FillAndExpand"/>
+            <Entry Placeholder="Contraseña" Text="{Binding Usuario.CONTRASEÑA}" HorizontalOptions="FillAndExpand"/>
+            <Entry Placeholder="NOMBRE" Text="{Binding Usuario.NOMBRE}" HorizontalOptions="FillAndExpand"/>
+            <Entry Placeholder="APELLIDOS" Text="{Binding Usuario.APELLIDOS}" HorizontalOptions="FillAndExpand"/>
+            <Entry Placeholder="TELEFONO" Text="{Binding Usuario.TELEFONO}" HorizontalOptions="FillAndExpand"/>
+            <DatePicker Date="{Binding Usuario.FECHA_NACIMIENTO}" />
+            <Button Text="Registrarse" Command="{Binding Register}"/>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
