@@ -6,6 +6,7 @@ using HotelingXamarin.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace HotelingXamarin.ViewModels {
@@ -16,11 +17,26 @@ namespace HotelingXamarin.ViewModels {
             if (Usuario == null) {
                 Usuario = new Usuario();
             }
+
+            if (App.Locator.SessionService.Sesion.usuario != null)
+            {
+                this.Usuario = App.Locator.SessionService.Sesion.usuario;
+            }
+
+            MessagingCenter.Subscribe<UsuarioViewModel>(this, "MODIFICADO", async (sender) =>
+            {
+                MiPerfil view = new MiPerfil();
+                await Application.Current.MainPage.Navigation.PushAsync(view);
+                await this.CargarPerfil();
+            });
+
         }
 
         private Usuario _Usuario;
         public Usuario Usuario {
-            get { return this._Usuario; }
+            get {
+                return this._Usuario;
+            }
             set {
                 this._Usuario = value;
                 OnPropertyChanged("Usuario");
@@ -51,10 +67,10 @@ namespace HotelingXamarin.ViewModels {
                     String token = await this.repo.GetToken(Usuario.EMAIL, Usuario.CONTRASEÑA);
                     if(token != null) {
                         Usuario usuario1 = await this.repo.PerfilUsuario(token);
-
                         SessionService session = App.Locator.SessionService;
                         session.Sesion.token = token;
                         session.Sesion.usuario = usuario1;
+                        await this.CargarPerfil();
                         MessagingCenter.Send<PrincipalMaster>(App.Locator.PrincipalMaster, "INICIAR");
                     }
                     else {
@@ -62,6 +78,24 @@ namespace HotelingXamarin.ViewModels {
                     }
                 });
             }
+        }
+
+        public Command ModificarPerfil
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    await this.repo.ModificarDoctor(this.Usuario.ID_USUARIO, this.Usuario, App.Locator.SessionService.Sesion.token);
+                    MessagingCenter.Send<UsuarioViewModel>(App.Locator.UsuarioViewModel, "MODIFICADO");
+                });
+            }
+        }
+
+        public async Task CargarPerfil()
+        {
+            Usuario user = await this.repo.GetUsuarioNum(App.Locator.SessionService.Sesion.usuario.ID_USUARIO,App.Locator.SessionService.Sesion.token);
+            this.Usuario = user;
         }
 
     }

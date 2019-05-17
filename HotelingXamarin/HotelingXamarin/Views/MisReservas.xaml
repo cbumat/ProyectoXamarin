@@ -1,12 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<CarouselPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HotelingXamarin.Views.MisReservas">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Mis reservas"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
-</ContentPage>
+              xmlns:viewmodels="clr-namespace:HotelingXamarin.ViewModels"
+             x:Class="HotelingXamarin.Views.MisReservas" ItemsSource="{Binding Reservas}"
+              xmlns:local="clr-namespace:HotelingXamarin"
+              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ReservasViewModel}"
+              x:Name="vistareservas">
+    <CarouselPage.BindingContext>
+        <viewmodels:ReservasViewModel/>
+    </CarouselPage.BindingContext>
+    <CarouselPage.ItemTemplate>
+        <DataTemplate>
+            <ContentPage >
+                <StackLayout VerticalOptions="StartAndExpand" Padding="50">
+                    <Label Text="{Binding NOMBRE_HOTEL}" FontSize="30" TextColor="Fuchsia" HorizontalOptions="CenterAndExpand"></Label>
+                    <Label Text="{Binding TIPO_ALOJAMIENTO, StringFormat='Tipo de habitación: {0}'}" FontSize="30" TextColor="Fuchsia" HorizontalOptions="CenterAndExpand"></Label>
+                    <Label Text="{Binding FECHA_LLEGADA, StringFormat='Fecha llegada: {0}'}" FontSize="30" TextColor="Fuchsia" HorizontalOptions="CenterAndExpand"></Label>
+                    <Label Text="{Binding FECHA_SALIDA, StringFormat='Fecha salida: {0}'}" FontSize="30" TextColor="Fuchsia" HorizontalOptions="CenterAndExpand"></Label>
+                    <Label Text="{Binding HABITACIONES, StringFormat='Habitaciones: {0}'}" FontSize="30" TextColor="Fuchsia" HorizontalOptions="CenterAndExpand"></Label>
+                    <Label Text="{Binding ADULTOS, StringFormat='Adultos: {0}'}" FontSize="30" TextColor="Fuchsia" HorizontalOptions="CenterAndExpand"></Label>
+                    <Label Text="{Binding NIÑOS, StringFormat='Niños: {0}'}" FontSize="30" TextColor="Fuchsia" HorizontalOptions="CenterAndExpand"></Label>
+                    <Button Text="Eliminar Reserva" CommandParameter="{Binding .}"
+                                        Command="{Binding BindingContext.EliminarReserva,
+                                    Source={x:Reference vistareservas}}" BackgroundColor="Red"
+                    TextColor="White"/>
+                </StackLayout>
+            </ContentPage>
+        </DataTemplate>
+    </CarouselPage.ItemTemplate>
+</CarouselPage>

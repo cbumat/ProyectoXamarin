@@ -100,5 +100,43 @@ response.Content.ReadAsStringAsync();
             HttpClient client = this.GetHttpClient();
             HttpResponseMessage response = await client.PostAsync(uri, content);
         }
+
+        public async Task<List<Reserva>> GetReservas(int idusuario, string token)
+        {
+            List<Reserva> reservas = await CallApi<List<Reserva>>("api/Reservas/" + idusuario, token);
+            return reservas;
+        }
+
+        public async Task EliminarReserva(int idreserva, string token)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                String peticion = "api/EliminarReserva/" + idreserva;
+                client.BaseAddress = new Uri(this.urlapi);
+                client.DefaultRequestHeaders.Accept.Clear();
+                MediaTypeWithQualityHeaderValue headerjson = new MediaTypeWithQualityHeaderValue("application/json");
+                client.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
+                await client.DeleteAsync(peticion);
+            }
+        }
+
+        public async Task<Usuario> GetUsuarioNum(int idusuario, string token)
+        {
+            Usuario usuario = await CallApi<Usuario>("api/UsuarioNum/" + idusuario, token);
+            return usuario;
+        }
+
+        public async Task ModificarDoctor(int iduser, Usuario usuario, String token)
+        {
+            String jsondoctor = JsonConvert.SerializeObject(usuario, Formatting.Indented);
+            byte[] bufferdoctor = Encoding.UTF8.GetBytes(jsondoctor);
+            ByteArrayContent content = new ByteArrayContent(bufferdoctor);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");            
+            String peticion = "api/ModificarUsuario/" + iduser;
+            Uri uri = new Uri(this.urlapi + peticion);
+            HttpClient client = this.GetHttpClient();
+            client.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
+            HttpResponseMessage response = await client.PutAsync(uri, content);
+        }
     }
 }

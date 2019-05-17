@@ -10,11 +10,12 @@ using Xamarin.Forms.Xaml;
 namespace HotelingXamarin.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class MisReservas : ContentPage
+	public partial class MisReservas : CarouselPage
 	{
 		public MisReservas ()
 		{
 			InitializeComponent ();
-		}
+            
+        }
 	}
 }

@@ -15,6 +15,6 @@ namespace HotelingXamarin.Views
 		public MiPerfil ()
 		{
 			InitializeComponent ();
-		}
+        }
 	}
 }
